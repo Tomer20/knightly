@@ -1,0 +1,12 @@
+{{- if .Values.zeroScaler.configMap.data -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "knightly.zeroScalerFullname" . }}
+  labels:
+    {{- include "knightly.zeroScalerLabels" . | nindent 4 }}
+data:
+  {{- range $name, $value := .Values.zeroScaler.configMap.data }}
+    {{ $name }}: {{ $value | quote }}
+  {{- end }}
+{{- end -}}

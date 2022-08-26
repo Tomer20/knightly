@@ -1,0 +1,12 @@
+{{- if .Values.annotator.configMap.data -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "knightly.annotatorFullname" . }}
+  labels:
+    {{- include "knightly.annotatorLabels" . | nindent 4 }}
+data:
+  {{- range $name, $value := .Values.annotator.configMap.data }}
+    {{ $name }}: {{ $value | quote }}
+  {{- end }}
+{{- end -}}

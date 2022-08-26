@@ -1,0 +1,6 @@
+aiohttp==3.8.1
+aiosignal==1.2.0
+async-timeout==4.0.2
+kubernetes==24.2.0
+slack-bolt==1.14.3
+slack-sdk==3.18.1

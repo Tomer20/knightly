@@ -1,0 +1,38 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "knightly.annotatorFullname" . }}
+  labels:
+    {{- include "knightly.annotatorLabels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.annotator.cronJob.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          {{- with .Values.annotator.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "knightly.annotatorSelectorLabels" . | nindent 12 }}
+        spec:
+          {{- with .Values.annotator.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "knightly.annotatorServiceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.annotator.podSecurityContext | nindent 12 }}
+          containers:
+          - name: annotator
+            image: "{{ .Values.annotator.image.repository }}:{{ .Values.annotator.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy: {{ .Values.annotator.image.pullPolicy }}
+            securityContext:
+              {{- toYaml .Values.annotator.securityContext | nindent 14 }}
+            {{- if .Values.annotator.configMap.data }}
+            envFrom:
+              - configMapRef:
+                  name: {{ include "knightly.annotatorFullname" . }}
+            {{- end }}
+          restartPolicy: {{ .Values.annotator.cronJob.restartPolicy }}

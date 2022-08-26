@@ -1,0 +1,195 @@
+# Default values for knightly.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+controller:
+  replicaCount: 1
+  image:
+    repository: nexus.aws.everc.io:5009/knightly/controller
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "0.0.8"
+  imagePullSecrets:
+    - name: nexus
+  podAnnotations: {}
+  podSecurityContext:
+    fsGroup: 2000
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+    containerPort: 8080
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: nginx-external
+    hosts:
+      - host: knightly-dev.everc.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 0.5
+      memory: 1Gi
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  nodeSelector:
+    node-group: devops
+
+  tolerations:
+    - key: "node-group"
+      operator: Equal
+      value: "devops"
+
+  affinity: {}
+
+  configMap:
+    data:
+      ENV_NAME: "dev"
+      RUN_IN_CLUSTER: "True"
+      LOG_LEVEL: "INFO"
+
+annotator:
+  cronJob:
+    schedule: "0 4 * * *"  # 07:00 Israel-Time
+    restartPolicy: OnFailure
+    successfulJobsHistoryLimit: 3
+    failedJobsHistoryLimit: 1
+
+  image:
+    repository: nexus.aws.everc.io:5009/knightly/annotator
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "0.0.2"
+  imagePullSecrets:
+    - name: nexus
+  podAnnotations: {}
+  podSecurityContext:
+    fsGroup: 2000
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 1Gi
+    requests:
+      cpu: 0.1
+      memory: 0.5Gi
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  nodeSelector:
+    node-group: devops
+
+  tolerations:
+    - key: "node-group"
+      operator: Equal
+      value: "devops"
+
+  affinity: {}
+
+  configMap:
+    data:
+      ENV_NAME: "dev"
+      RUN_IN_CLUSTER: "True"
+      LOG_LEVEL: "INFO"
+
+zeroScaler:
+  cronJob:
+    schedule: "0 19 * * *"  # 22:00 Israel-Time
+    restartPolicy: OnFailure
+    successfulJobsHistoryLimit: 3
+    failedJobsHistoryLimit: 1
+
+  image:
+    repository: nexus.aws.everc.io:5009/knightly/zero-scaler
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "0.0.1"
+  imagePullSecrets:
+    - name: nexus
+  podAnnotations: {}
+  podSecurityContext:
+    fsGroup: 2000
+  securityContext:
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 0.5
+      memory: 1Gi
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  nodeSelector:
+    node-group: devops
+
+  tolerations:
+    - key: "node-group"
+      operator: Equal
+      value: "devops"
+
+  affinity: {}
+
+  configMap:
+    data:
+      ENV_NAME: "dev"
+      RUN_IN_CLUSTER: "True"
+      LOG_LEVEL: "INFO"
