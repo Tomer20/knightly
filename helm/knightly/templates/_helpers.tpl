@@ -74,13 +74,13 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "knightly.commanderSelectorLabels" -}}
-knightly.everc.com/service: commander
+knightly.example.com/service: commander
 {{- end }}
 {{- define "knightly.annotatorSelectorLabels" -}}
-knightly.everc.com/service: annotator
+knightly.example.com/service: annotator
 {{- end }}
 {{- define "knightly.zeroScalerSelectorLabels" -}}
-knightly.everc.com/service: zero-scaler
+knightly.example.com/service: zero-scaler
 {{- end }}
 
 {{/*

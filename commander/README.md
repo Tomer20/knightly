@@ -15,9 +15,9 @@ It applies knightly label and annotation on the namespace:
 ```yaml
 metadata:
   labels:
-    knightly.everc.com/enabled: true
+    knightly.example.com/enabled: true
   annotations:
-    knightly.everc.com/keepmeup: "0"
+    knightly.example.com/keepmeup: "0"
 ```
 
 Then it removes KEDA's `paused-replicas` annotation (that is being set when stopping a namespace).
@@ -33,9 +33,9 @@ It applies knightly label and annotation on the namespace:
 ```yaml
 metadata:
   labels:
-    knightly.everc.com/enabled: true
+    knightly.example.com/enabled: true
   annotations:
-    knightly.everc.com/keepmeup: "0"
+    knightly.example.com/keepmeup: "0"
 ```
 
 Then it applies KEDA's `paused-replicas` [annotation](https://keda.sh/docs/2.8/concepts/scaling-deployments/#pause-autoscaling):
@@ -52,14 +52,14 @@ And finally scales all deployments in the namespace to 0.
 
 `/knightly keep  namespace <NAME> <NUM OF DAYS>`
 
-Marks a desired namespace to stay up for X days (so the zero-scaler won't stop it) by setting `keepmeup` annotation with the desired number of days and changing the label `knightly.everc.com/enabled` to `false`:
+Marks a desired namespace to stay up for X days (so the zero-scaler won't stop it) by setting `keepmeup` annotation with the desired number of days and changing the label `knightly.example.com/enabled` to `false`:
 
 ```yaml
 metadata:
   labels:
-    knightly.everc.com/enabled: false
+    knightly.example.com/enabled: false
   annotations:
-    knightly.everc.com/keepmeup: "0"
+    knightly.example.com/keepmeup: "0"
 ```
 
 # Slack integration

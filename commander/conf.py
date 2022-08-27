@@ -6,11 +6,11 @@ import os
 RUN_IN_CLUSTER = os.getenv("RUN_IN_CLUSTER", default="False")
 if RUN_IN_CLUSTER == "False":
     SCRIPT_KUBECONFIG = os.getenv("SCRIPT_KUBECONFIG",
-                                  default="~/.kube/config.everc_dev")
+                                  default="~/.kube/config")
 LOG_LEVEL = os.getenv("LOG_LEVEL", default="INFO")
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", 3000))
-SLACK_COMMAND = os.getenv("SLACK_COMMAND", "knightly-dev")
+SLACK_COMMAND = os.getenv("SLACK_COMMAND", "knightly")
 MAX_DAYS_TO_KEEP = int(os.getenv("MAX_DAYS_TO_KEEP", 7))
 
 
@@ -42,5 +42,5 @@ class Keda(str, Enum):
 
 
 class Namespace(str, Enum):
-    LABEL = "knightly.everc.com/enabled"
-    ANNOTATION = "knightly.everc.com/keepmeup"
+    LABEL = "knightly.example.com/enabled"
+    ANNOTATION = "knightly.example.com/keepmeup"

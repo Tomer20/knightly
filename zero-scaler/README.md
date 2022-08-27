@@ -7,7 +7,7 @@ The script will look for all namespaces with this label:
 ```yaml
 metadata:
   labels:
-    knightly.everc.com/enabled: true
+    knightly.example.com/enabled: true
 ```
 
 then, it will pause all KEDA ScaledObjects by adding `pause-replicas` annotation:

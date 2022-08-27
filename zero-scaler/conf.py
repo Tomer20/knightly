@@ -6,7 +6,7 @@ import os
 RUN_IN_CLUSTER = os.getenv("RUN_IN_CLUSTER", default="False")
 if RUN_IN_CLUSTER == "False":
     SCRIPT_KUBECONFIG = os.getenv("SCRIPT_KUBECONFIG",
-                                  default="~/.kube/config.everc_dev")
+                                  default="~/.kube/config")
 LOG_LEVEL = os.getenv("LOG_LEVEL", default="INFO")
 
 
@@ -18,5 +18,5 @@ class Keda(str, Enum):
 
 
 class Namespace(str, Enum):
-    LABEL = "knightly.everc.com/enabled"
-    ANNOTATION = "knightly.everc.com/keepmeup"
+    LABEL = "knightly.example.com/enabled"
+    ANNOTATION = "knightly.example.com/keepmeup"
