@@ -54,3 +54,4 @@ Thumbs.db
 
 # VisualStudio Code
 **/*.code-workspace
+**/.vscode/
