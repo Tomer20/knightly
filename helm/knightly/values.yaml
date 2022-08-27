@@ -5,15 +5,14 @@
 nameOverride: ""
 fullnameOverride: ""
 
-controller:
+commander:
   replicaCount: 1
   image:
-    repository: nexus.aws.everc.io:5009/knightly/controller
+    repository: knightly/commander
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "0.0.8"
-  imagePullSecrets:
-    - name: nexus
+    tag: ""
+  imagePullSecrets: []
   podAnnotations: {}
   podSecurityContext:
     fsGroup: 2000
@@ -28,15 +27,14 @@ controller:
   service:
     type: ClusterIP
     port: 80
-    containerPort: 8080
+    containerPort: 3000
 
   ingress:
     enabled: true
     className: ""
-    annotations:
-      kubernetes.io/ingress.class: nginx-external
+    annotations: {}
     hosts:
-      - host: knightly-dev.everc.com
+      - host: knightly.example.com
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -62,13 +60,9 @@ controller:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-  nodeSelector:
-    node-group: devops
+  nodeSelector: {}
 
-  tolerations:
-    - key: "node-group"
-      operator: Equal
-      value: "devops"
+  tolerations: []
 
   affinity: {}
 
@@ -86,12 +80,11 @@ annotator:
     failedJobsHistoryLimit: 1
 
   image:
-    repository: nexus.aws.everc.io:5009/knightly/annotator
+    repository: knightly/annotator
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "0.0.2"
-  imagePullSecrets:
-    - name: nexus
+    tag: ""
+  imagePullSecrets: []
   podAnnotations: {}
   podSecurityContext:
     fsGroup: 2000
@@ -120,13 +113,9 @@ annotator:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-  nodeSelector:
-    node-group: devops
+  nodeSelector: {}
 
-  tolerations:
-    - key: "node-group"
-      operator: Equal
-      value: "devops"
+  tolerations: []
 
   affinity: {}
 
@@ -144,12 +133,11 @@ zeroScaler:
     failedJobsHistoryLimit: 1
 
   image:
-    repository: nexus.aws.everc.io:5009/knightly/zero-scaler
+    repository: knightly/zero-scaler
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "0.0.1"
-  imagePullSecrets:
-    - name: nexus
+    tag: ""
+  imagePullSecrets: []
   podAnnotations: {}
   podSecurityContext:
     fsGroup: 2000
@@ -178,13 +166,9 @@ zeroScaler:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-  nodeSelector:
-    node-group: devops
+  nodeSelector: {}
 
-  tolerations:
-    - key: "node-group"
-      operator: Equal
-      value: "devops"
+  tolerations: []
 
   affinity: {}
 

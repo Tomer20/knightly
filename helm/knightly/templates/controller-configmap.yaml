@@ -1,12 +1,12 @@
-{{- if .Values.controller.configMap.data -}}
+{{- if .Values.commander.configMap.data -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "knightly.controllerFullname" . }}
+  name: {{ include "knightly.commanderFullname" . }}
   labels:
-    {{- include "knightly.controllerLabels" . | nindent 4 }}
+    {{- include "knightly.commanderLabels" . | nindent 4 }}
 data:
-  {{- range $name, $value := .Values.controller.configMap.data }}
+  {{- range $name, $value := .Values.commander.configMap.data }}
     {{ $name }}: {{ $value | quote }}
   {{- end }}
 {{- end -}}

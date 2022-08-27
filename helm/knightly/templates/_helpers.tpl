@@ -23,8 +23,8 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 
-{{- define "knightly.controllerFullname" -}}
-{{- printf "%s-controller" (include "knightly.fullname" .) | trunc 63 }}
+{{- define "knightly.commanderFullname" -}}
+{{- printf "%s-commander" (include "knightly.fullname" .) | trunc 63 }}
 {{- end }}
 
 {{- define "knightly.annotatorFullname" -}}
@@ -55,9 +55,9 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{- define "knightly.controllerLabels" -}}
+{{- define "knightly.commanderLabels" -}}
 {{ include "knightly.commonLabels" . }}
-{{ include "knightly.controllerSelectorLabels" . }}
+{{ include "knightly.commanderSelectorLabels" . }}
 {{- end }}
 
 {{- define "knightly.annotatorLabels" -}}
@@ -73,8 +73,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "knightly.controllerSelectorLabels" -}}
-knightly.everc.com/service: controller
+{{- define "knightly.commanderSelectorLabels" -}}
+knightly.everc.com/service: commander
 {{- end }}
 {{- define "knightly.annotatorSelectorLabels" -}}
 knightly.everc.com/service: annotator
@@ -84,13 +84,13 @@ knightly.everc.com/service: zero-scaler
 {{- end }}
 
 {{/*
-Create the name of the service account to use for controller
+Create the name of the service account to use for commander
 */}}
-{{- define "knightly.controllerServiceAccountName" -}}
-{{- if .Values.controller.serviceAccount.create }}
-{{- default (include "knightly.controllerFullname" .) .Values.controller.serviceAccount.name }}
+{{- define "knightly.commanderServiceAccountName" -}}
+{{- if .Values.commander.serviceAccount.create }}
+{{- default (include "knightly.commanderFullname" .) .Values.commander.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.controller.serviceAccount.name }}
+{{- default "default" .Values.commander.serviceAccount.name }}
 {{- end }}
 {{- end }}
 

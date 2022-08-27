@@ -1,39 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "knightly.controllerFullname" . }}
+  name: {{ include "knightly.commanderFullname" . }}
   labels:
-    {{- include "knightly.controllerLabels" . | nindent 4 }}
+    {{- include "knightly.commanderLabels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.controller.replicaCount }}
+  replicas: {{ .Values.commander.replicaCount }}
   selector:
     matchLabels:
-      {{- include "knightly.controllerSelectorLabels" . | nindent 6 }}
+      {{- include "knightly.commanderSelectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.controller.podAnnotations }}
+      {{- with .Values.commander.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "knightly.controllerSelectorLabels" . | nindent 8 }}
+        {{- include "knightly.commanderSelectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.controller.imagePullSecrets }}
+      {{- with .Values.commander.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "knightly.controllerServiceAccountName" . }}
+      serviceAccountName: {{ include "knightly.commanderServiceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.controller.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.commander.podSecurityContext | nindent 8 }}
       containers:
-        - name: controller
+        - name: commander
           securityContext:
-            {{- toYaml .Values.controller.securityContext | nindent 12 }}
-          image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
+            {{- toYaml .Values.commander.securityContext | nindent 12 }}
+          image: "{{ .Values.commander.image.repository }}:{{ .Values.commander.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.commander.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.controller.service.containerPort }}
+              containerPort: {{ .Values.commander.service.containerPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -44,21 +44,21 @@ spec:
               path: /healthz
               port: http
           resources:
-            {{- toYaml .Values.controller.resources | nindent 12 }}
-          {{- if .Values.controller.configMap.data }}
+            {{- toYaml .Values.commander.resources | nindent 12 }}
+          {{- if .Values.commander.configMap.data }}
           envFrom:
             - configMapRef:
-                name: {{ include "knightly.controllerFullname" . }}
+                name: {{ include "knightly.commanderFullname" . }}
           {{- end }}
-      {{- with .Values.controller.nodeSelector }}
+      {{- with .Values.commander.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.controller.affinity }}
+      {{- with .Values.commander.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.controller.tolerations }}
+      {{- with .Values.commander.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

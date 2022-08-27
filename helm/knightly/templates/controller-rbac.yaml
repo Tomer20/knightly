@@ -1,9 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "knightly.controllerFullname" . }}
+  name: {{ include "knightly.commanderFullname" . }}
   labels:
-    {{- include "knightly.controllerLabels" . | nindent 4 }}
+    {{- include "knightly.commanderLabels" . | nindent 4 }}
 rules:
 - apiGroups:
   - ""
@@ -38,14 +38,14 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "knightly.controllerFullname" . }}
+  name: {{ include "knightly.commanderFullname" . }}
   labels:
-    {{- include "knightly.controllerLabels" . | nindent 4 }}
+    {{- include "knightly.commanderLabels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "knightly.controllerFullname" . }}
+  name: {{ include "knightly.commanderFullname" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ include "knightly.controllerServiceAccountName" . }}
+  name: {{ include "knightly.commanderServiceAccountName" . }}
   namespace: "{{ .Release.Namespace }}"

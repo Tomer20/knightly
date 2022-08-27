@@ -1,9 +1,9 @@
-{{- if .Values.controller.ingress.enabled -}}
-{{- $fullName := include "knightly.controllerFullname" . -}}
-{{- $svcPort := .Values.controller.service.port -}}
-{{- if and .Values.controller.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.controller.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.controller.ingress.annotations "kubernetes.io/ingress.class" .Values.controller.ingress.className}}
+{{- if .Values.commander.ingress.enabled -}}
+{{- $fullName := include "knightly.commanderFullname" . -}}
+{{- $svcPort := .Values.commander.service.port -}}
+{{- if and .Values.commander.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.commander.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.commander.ingress.annotations "kubernetes.io/ingress.class" .Values.commander.ingress.className}}
   {{- end }}
 {{- end }}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -17,18 +17,18 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "knightly.controllerLabels" . | nindent 4 }}
-  {{- with .Values.controller.ingress.annotations }}
+    {{- include "knightly.commanderLabels" . | nindent 4 }}
+  {{- with .Values.commander.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.controller.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.controller.ingress.className }}
+  {{- if and .Values.commander.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.commander.ingress.className }}
   {{- end }}
-  {{- if .Values.controller.ingress.tls }}
+  {{- if .Values.commander.ingress.tls }}
   tls:
-    {{- range .Values.controller.ingress.tls }}
+    {{- range .Values.commander.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -37,7 +37,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.controller.ingress.hosts }}
+    {{- range .Values.commander.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:

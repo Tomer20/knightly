@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "knightly.controllerFullname" . }}-test-connection"
+  name: "{{ include "knightly.commanderFullname" . }}-test-connection"
   labels:
-    {{- include "knightly.controllerLabels" . | nindent 4 }}
+    {{- include "knightly.commanderLabels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "knightly.controllerFullname" . }}:{{ .Values.controller.service.port }}']
+      args: ['{{ include "knightly.commanderFullname" . }}:{{ .Values.commander.service.port }}']
   restartPolicy: Never

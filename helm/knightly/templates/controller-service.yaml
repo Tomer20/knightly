@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "knightly.controllerFullname" . }}
+  name: {{ include "knightly.commanderFullname" . }}
   labels:
-    {{- include "knightly.controllerLabels" . | nindent 4 }}
+    {{- include "knightly.commanderLabels" . | nindent 4 }}
 spec:
-  type: {{ .Values.controller.service.type }}
+  type: {{ .Values.commander.service.type }}
   ports:
-    - port: {{ .Values.controller.service.port }}
+    - port: {{ .Values.commander.service.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    {{- include "knightly.controllerSelectorLabels" . | nindent 4 }}
+    {{- include "knightly.commanderSelectorLabels" . | nindent 4 }}
